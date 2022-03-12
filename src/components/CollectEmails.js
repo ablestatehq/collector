@@ -2,11 +2,20 @@ import React from "react";
 import { Formik, Field, Form } from "formik";
 import Copyright from "./shared/Copyright";
 import logo from "../assets/images/ablestate-logo.jpg";
+import { supabase } from "../supabaseClient";
 function CollectEmails() {
   React.useEffect(async () => {
     document.title = "Sign up to Remote Teams Early Access";
   }, []);
 
+  const createEmail = async (values) => {
+    const { email } = values;
+    const { data, error } = await supabase
+      .from("RTemails")
+        .insert([{ email: email, interest: "Teams" }]);
+      console.log("data: ", data);
+      console.log("error: ", error);
+  };
   return (
     <div className="container grow h-screen flex flex-col justify-center space-between mx-auto p-4  text-sm">
       <div className="align-center leading-6 mb-4 grow-0">
