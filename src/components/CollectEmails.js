@@ -13,8 +13,7 @@ function CollectEmails() {
     const { data, error } = await supabase
       .from("RTemails")
         .insert([{ email: email, interest: "Teams" }]);
-      console.log("data: ", data);
-      console.log("error: ", error);
+    return { 'success': data, 'error': error };
   };
   return (
     <div className="container grow h-screen flex flex-col justify-center space-between mx-auto p-4  text-sm">
@@ -30,8 +29,9 @@ function CollectEmails() {
         <Formik
           initialValues={{ email: "" }}
           onSubmit={async (values) => {
-            await new Promise((r) => setTimeout(r, 500));
-            alert(JSON.stringify(values, null, 2));
+              const { success, error } = await createEmail(values);
+              console.log(success)
+              console.log(error)
           }}
         >
           <Form className="w-auto mx-auto max-w-sm">
