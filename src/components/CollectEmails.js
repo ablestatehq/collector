@@ -13,7 +13,9 @@ function CollectEmails() {
   }, []);
 
   const earlyAccessSchema = Yup.object().shape({
-    email: Yup.string().email("Provide a valid E-mail.").required("E-mail is Required"),
+    email: Yup.string()
+      .email("Provide a valid E-mail.")
+      .required("E-mail is Required"),
   });
 
   const createEmail = async (values) => {
@@ -41,10 +43,18 @@ function CollectEmails() {
             You've successfully joined the Waiting list.
           </h1>
         ) : (
-          <>
-            <h1 className="text-xl uppercase mb-8">
-              <b>Get Early Access to our Remote Teams</b>
+                          <>
+                              <div className="w-1/2 mx-auto">
+            <h1 className="text-xl mb-8">
+              <b>Managed Developer Teams</b>
             </h1>
+            <h1>Are you looking for Software Developer Teams?</h1>
+            <p className="mb-8">
+              We are putting together teams of dedicated, vibrant and passionate
+              individuals in Uganda. Our 12 months training shapes them to be Top coders. <br/><br/>Take advantage of our early access by signing up below.
+              <br />
+            </p>
+
             <Formik
               initialValues={{ email: "" }}
               validationSchema={earlyAccessSchema}
@@ -57,7 +67,7 @@ function CollectEmails() {
               }}
             >
               {({ errors, touched }) => (
-                <Form className="w-auto mx-auto max-w-sm">
+                <Form >
                   <div className="flex items-center border-b border-orange-500 py-2">
                     <label htmlFor="email">Email</label>
                     <Field
@@ -76,10 +86,16 @@ function CollectEmails() {
                   </div>
                   {errors.email && touched.email ? (
                     <div className="text-red-500">{errors.email}</div>
-                  ) : <div className="mt-1 text-xs text-slate-400">Provide valid email.</div>}
+                  ) : (
+                    <div className="mt-1 text-xs text-slate-400">
+                      Provide valid email.
+                    </div>
+                  )}
                 </Form>
+
               )}
             </Formik>
+            </div>
           </>
         )}
       </div>
