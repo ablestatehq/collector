@@ -31,7 +31,7 @@ function CollectEmails() {
             <h1 className="text-blue-500">Saving...</h1>
           </div>
         ) :
-          saved ? (<h1 className="text-green-600">Thank you for joining our waitlist</h1>):(
+          saved ? (<h1 className="text-green-600 text-xl">You've successfully joined the Waiting list.</h1>):(
               <>
                 <h1 className="text-xl uppercase mb-8">
                 <b>Get Early Access to Remote Teams</b>
