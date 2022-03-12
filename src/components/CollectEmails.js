@@ -7,7 +7,7 @@ function CollectEmails() {
     const [saving, setSaving] = React.useState(false);
     const [saved, setSaved] = React.useState(false);
   React.useEffect(async () => {
-    document.title = "Sign up to Remote Teams Early Access";
+    document.title = "Sign up for Early Access";
   }, []);
 
   const createEmail = async (values) => {
@@ -34,7 +34,7 @@ function CollectEmails() {
           saved ? (<h1 className="text-green-600 text-xl">You've successfully joined the Waiting list.</h1>):(
               <>
                 <h1 className="text-xl uppercase mb-8">
-                <b>Get Early Access to Remote Teams</b>
+                <b>Get Early Access to our Remote Teams</b>
                 </h1>
             <Formik
               initialValues={{ email: "" }}
