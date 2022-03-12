@@ -3,12 +3,18 @@ import { Formik, Field, Form } from "formik";
 import Copyright from "./shared/Copyright";
 import logo from "../assets/images/ablestate-logo.jpg";
 import { supabase } from "../supabaseClient";
+import * as Yup from "yup";
+
 function CollectEmails() {
-    const [saving, setSaving] = React.useState(false);
-    const [saved, setSaved] = React.useState(false);
+  const [saving, setSaving] = React.useState(false);
+  const [saved, setSaved] = React.useState(false);
   React.useEffect(async () => {
-    document.title = "Sign up for Early Access";
+    document.title = "Ablestate | Sign up for Early Access";
   }, []);
+
+  const earlyAccessSchema = Yup.object().shape({
+    email: Yup.string().email("Provide a valid E-mail.").required("E-mail is Required"),
+  });
 
   const createEmail = async (values) => {
     setSaving(true);
@@ -28,16 +34,20 @@ function CollectEmails() {
       <div className="text-center flex flex-col justify-center grow">
         {saving ? (
           <div className="text-center">
-            <h1 className="text-blue-500">Saving...</h1>
+            <h1 className="text-lg text-blue-500">Saving...</h1>
           </div>
-        ) :
-          saved ? (<h1 className="text-green-600 text-xl">You've successfully joined the Waiting list.</h1>):(
-              <>
-                <h1 className="text-xl uppercase mb-8">
-                <b>Get Early Access to our Remote Teams</b>
-                </h1>
+        ) : saved ? (
+          <h1 className="text-green-600 text-xl">
+            You've successfully joined the Waiting list.
+          </h1>
+        ) : (
+          <>
+            <h1 className="text-xl uppercase mb-8">
+              <b>Get Early Access to our Remote Teams</b>
+            </h1>
             <Formik
               initialValues={{ email: "" }}
+              validationSchema={earlyAccessSchema}
               onSubmit={async (values) => {
                 const { success, error } = await createEmail(values);
                 if (success || error) setSaving(false);
@@ -46,24 +56,29 @@ function CollectEmails() {
                 console.log(error);
               }}
             >
-              <Form className="w-auto mx-auto max-w-sm">
-                <div className="flex items-center border-b border-orange-500 py-2">
-                  <label htmlFor="email">Email</label>
-                  <Field
-                    id="email"
-                    name="email"
-                    placeholder="you@domain.com"
-                    type="email"
-                    className="appearance-none bg-transparent border-none w-full text-gray-700 mr-3 py-1 px-2 leading-tight focus:outline-none"
-                  />
-                  <button
-                    className="flex-shrink-0 bg-orange-600 hover:bg-orange-700 border-orange-600 hover:border-orange-700 text-sm border-4 text-white py-1 px-2 rounded"
-                    type="submit"
-                  >
-                    Submit
-                  </button>
-                </div>
-              </Form>
+              {({ errors, touched }) => (
+                <Form className="w-auto mx-auto max-w-sm">
+                  <div className="flex items-center border-b border-orange-500 py-2">
+                    <label htmlFor="email">Email</label>
+                    <Field
+                      id="email"
+                      name="email"
+                      placeholder="you@domain.com"
+                      type="email"
+                      className="appearance-none bg-transparent border-none w-full text-gray-700 mr-3 py-1 px-2 leading-tight focus:outline-none"
+                    />
+                    <button
+                      className="flex-shrink-0 bg-orange-600 hover:bg-orange-700 border-orange-600 hover:border-orange-700 text-sm border-4 text-white py-1 px-2 rounded"
+                      type="submit"
+                    >
+                      Submit
+                    </button>
+                  </div>
+                  {errors.email && touched.email ? (
+                    <div className="text-red-500">{errors.email}</div>
+                  ) : <div className="mt-1 text-xs text-slate-400">Provide valid email.</div>}
+                </Form>
+              )}
             </Formik>
           </>
         )}
